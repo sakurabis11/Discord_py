@@ -63,7 +63,13 @@ async def on_message(message):
             return
         if message.startswith('myrank'):
             user_id = message.author.id
-            user = await client.fetch_user(
+            user = await client.fetch_user(user_id)
+            search_id = db.find_one({"userid": user_id})
+            if search_id is None:
+                await (client.get_channel(log_ch_id)).send(f"{user.mention} you have no rank.")
+            else:
+                msg_count = search_id["msg_count"]
+                await (client.get_channel(log_ch_id)).send(f"{user.mention} your rank
 
 token = ""
 
