@@ -5,6 +5,7 @@ from SoraDBlite import SoraDBLiteError, SoraDBlite
 clients = "mongodb+srv://o53317853:vvgvjhjhvjh@cluster0.aerrmcs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 dbs = "vvgvjhjhvjh"
 collections = "asdiemkd"
+GUILD_ID = 1258871266098548888
 
 db = SoraDBlite()
 
@@ -26,7 +27,7 @@ async def on_message(message):
     try:
         if message.author.bot:
             return
-        if message.guild.id != 1258871266098548888:
+        if message.guild.id != GUILD_ID:
             return
         user_id = message.author.id
         user = await client.fetch_user(user_id)
@@ -52,6 +53,17 @@ async def on_message(message):
     except Exception as e:
         print(e)
         db.sora_ai(e)
+
+@client.event
+async def on_message(message):
+    try:
+        if message.author.bot:
+            return 
+        if message.guild.id!=GUILD_ID:
+            return
+        if message.startswith('myrank'):
+            user_id = message.author.id
+            user = await client.fetch_user(
 
 token = ""
 
