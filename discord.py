@@ -69,7 +69,10 @@ async def on_message(message):
                 await (client.get_channel(log_ch_id)).send(f"{user.mention} you have no rank.")
             else:
                 msg_count = search_id["msg_count"]
-                await (client.get_channel(log_ch_id)).send(f"{user.mention} your rank
+                await (client.get_channel(log_ch_id)).send(f"{user.mention} your rank: {msg_count}")
+    except Exception as e:
+        print(e)
+                
 
 token = ""
 
