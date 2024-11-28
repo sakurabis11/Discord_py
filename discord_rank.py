@@ -17,7 +17,7 @@ class Dis(commands.Bot):
 
         print(f"{self.user} is now connected!")
         try:
-            synced = await client.tree.sync()
+            synced = await client.tree.sync(guild=guild_id)
             print(f"{len(synced)}")
         except Exception as e:
             print(e)
@@ -81,7 +81,7 @@ async def sayHello(interaction: discord.Interaction):
 async def sayprint(msg:discord.Interaction,printer:str):
     await msg.response.send_message(printer)
 
-@client.tree.command(name="rankingenable", description="Enabling the ranking system value: on/off")
+@client.tree.command(name="rankingenable", description="Enabling the ranking system value: on/off",guild=guild_id)
 async def enable(msg:discord.Interaction, on_off:str, channel_id:str):
 
     guildi_d = msg.guild.id
