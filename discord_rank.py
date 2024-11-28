@@ -17,7 +17,7 @@ class Dis(commands.Bot):
 
         print(f"{self.user} is now connected!")
         try:
-            synced = await client.tree.sync(guild=guild_id)
+            synced = await client.tree.sync()
             print(f"{len(synced)}")
         except Exception as e:
             print(e)
@@ -38,32 +38,31 @@ class Dis(commands.Bot):
             if r_onoff == "off":
                 pass
             elif r_onoff == "on":
-                r_user = db.find_one({"rank_user_id": user_id})
+                r_user = db.find_one({"r_guild_id": guildid,"rank_user_id": user_id})
                 if r_user is None:
-                    db.insert_one({"rank_user_id": user_id, "msg_count": 1 , "rank": 0})
+                    db.insert_one({"r_guild_id": guildid, "rank_user_id": user_id, "r_guild_id": guildid, "msg_count": 1 , "rank": 0})
                 else:
-                    r_user2 = db.find_one({"rank_user_id": user_id})
+                    r_user2 = db.find_one({"r_guild_id": guildid,"rank_user_id": user_id})
                     msgcount = r_user2["msg_count"]
-                    filter = {"rank_user_id": user_id}
+                    filter = {"r_guild_id": guildid,"rank_user_id": user_id}
                     update = {"$set": {"msg_count": msgcount+1}}
                     db.update_one(filter,update)
 
-                    r_user3 = db.find_one({"rank_user_id": user_id})
+                    r_user3 = db.find_one({"r_guild_id": guildid,"rank_user_id": user_id})
                     msgcount2 = r_user3["msg_count"]
                     if msgcount2 % 10 ==0:
                         rankcount = r_user3["rank"]
-                        filter = {"rank_user_id": user_id}
+                        filter = {"r_guild_id": guildid,"rank_user_id": user_id}
                         update = {"$set": {"rank": rankcount + 1}}
                         db.update_one(filter , update)
                         channelid = r_check["rank_channel"]
-                        r_user4 = db.find_one({"rank_user_id": user_id})
+                        r_user4 = db.find_one({"r_guild_id": guildid,"rank_user_id": user_id})
                         rankcount2 = r_user4["rank"]
                         await (client.get_channel(channelid)).send(f"{user.mention} has reached level {rankcount2}. GG!")
                     else:
                         pass
             else:
                 pass
-
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -82,12 +81,8 @@ async def sayHello(interaction: discord.Interaction):
 async def sayprint(msg:discord.Interaction,printer:str):
     await msg.response.send_message(printer)
 
-@client.tree.command(name="ranking_enable", description="Enabling the ranking system value: on/off",guild=guild_id)
+@client.tree.command(name="rankingenable", description="Enabling the ranking system value: on/off")
 async def enable(msg:discord.Interaction, on_off:str, channel_id:str):
-
-    """if not msg.guild:
-         await msg.response.send_message("This command can only be used within a guild.")
-         return"""
 
     guildi_d = msg.guild.id
     u_id = msg.user.id
@@ -97,8 +92,6 @@ async def enable(msg:discord.Interaction, on_off:str, channel_id:str):
     guild = client.get_guild(guildi_d)
     chnl = guild.get_channel(channel_id)
     user = await client.fetch_user(u_id)
-
-    # db.insert_one({"rank_guild_id": guild_id , "rank_isenable": "off" , "msg_count": 0 , "rank": 0})
 
     if onoff == "on":
         check1 = db.find_one({"rank_guild_id": guildi_d})
