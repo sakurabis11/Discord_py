@@ -40,7 +40,7 @@ class Dis(commands.Bot):
             elif r_onoff == "on":
                 r_user = db.find_one({"r_guild_id": guildid,"rank_user_id": user_id})
                 if r_user is None:
-                    db.insert_one({"r_guild_id": guildid, "rank_user_id": user_id, "r_guild_id": guildid, "msg_count": 1 , "rank": 0})
+                    db.insert_one({"r_guild_id": guildid, "rank_user_id": user_id, "msg_count": 1 , "rank": 0})
                 else:
                     r_user2 = db.find_one({"r_guild_id": guildid,"rank_user_id": user_id})
                     msgcount = r_user2["msg_count"]
