@@ -4,3 +4,6 @@ from discord import app_commands
 
 import SoraDBlite 
 from SoraDBlite import SoraDBlite, SoraDBLiteError
+
+class disc(Commands.Bog):
+  
